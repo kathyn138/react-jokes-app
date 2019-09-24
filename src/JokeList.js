@@ -17,7 +17,15 @@ class JokeList extends React.PureComponent {
   }
 
   async componentDidMount() {
-    let jokes = await this.createArray()
+    let jokesArr = Array.from({ length: 10 });
+    let jokesRequests = jokesArr.map(() => axios.get('https://icanhazdadjoke.com/'))
+    let resolvedJokes = (await Promise.all(jokesRequests)).map(data => ({
+      id: data.data.id,
+      joke: data.data.joke,
+      score: 0
+    }));
+
+    let jokes = resolvedJokes;
     this.setState({ jokes });
   }
 
@@ -34,16 +42,16 @@ class JokeList extends React.PureComponent {
   // }
   // }
 
-  async createArray() {
-    let jokesArr = Array.from({ length: 10 });
-    let jokesRequests = jokesArr.map(() => axios.get('https://icanhazdadjoke.com/'))
-    let resolvedJokes = (await Promise.all(jokesRequests)).map(data => ({
-      id: data.data.id,
-      joke: data.data.joke,
-      score: 0
-    }));
-    return resolvedJokes;
-  }
+  // async createArray() {
+  //   let jokesArr = Array.from({ length: 10 });
+  //   let jokesRequests = jokesArr.map(() => axios.get('https://icanhazdadjoke.com/'))
+  //   let resolvedJokes = (await Promise.all(jokesRequests)).map(data => ({
+  //     id: data.data.id,
+  //     joke: data.data.joke,
+  //     score: 0
+  //   }));
+  //   return resolvedJokes;
+  // }
 
   upVote(id) {
     this.setState(st => ({
