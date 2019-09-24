@@ -67,6 +67,12 @@ class JokeList extends React.PureComponent {
             score={j.score}
             upVote={this.upVote}
             downVote={this.downVote} />
+          // when i did arrow fn, it caused 9 renders lol 
+          // each click makes it rerender bc R can't tell it's the same fn 
+
+
+
+
           // without arrow fn, i'm invoking the fn 
           // the fn sets state but render sets state so it'll infinite loop
           // arrow fn passes down fn rather than invocation of fn
